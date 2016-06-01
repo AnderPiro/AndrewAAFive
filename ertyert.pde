@@ -1,23 +1,13 @@
-/**
- * drawing with a changing shape by draging the mouse.
- *    
- * MOUSE
- * position x          : length
- * position y          : thickness and number of lines
- * drag                : draw
- * 
- * KEYS
- * del, backspace      : erase
- * s                   : save png
- * r                   : start pdf record
- * e                   : end pdf record
- */
+
 
 import processing.pdf.*;
 import java.util.Calendar;
 
 boolean recordPDF = false;
 PVector loc = new PVector (0, 0);
+int startLoop = 0;
+int increment = 1;
+float cMult = .75;
 
 void setup(){
   size(1920, 1080);
@@ -39,10 +29,10 @@ void draw(){
 
     strokeWeight(2);
     colorMode(HSB, (int) Math.sqrt(height*height + width*width));
-    stroke( (float) ((Math.sqrt(height*height + width*width))-Math.sqrt((width-loc.x)*loc.x+(height-loc.y)*(loc.y))*2), loc.y*2, loc.x*2, 25);
+    stroke( (float) ((Math.sqrt(height*height + width*width))-Math.sqrt((width-loc.x)*loc.x+(height-loc.y)*(loc.y))*cMult), loc.y*2, loc.x*2, 25);
 
     beginShape();
-    for (int i=0; i<=circleResolution; i++){
+    for (int i=startLoop; i<=circleResolution; i+=increment){
       float x = 0 + cos(angle*i) * radius;
       float y = 0 + sin(angle*i) * radius;
       vertex(x, y);
